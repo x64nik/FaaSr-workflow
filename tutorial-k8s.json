@@ -1,0 +1,65 @@
+{
+    "ActionList": {
+        "start": {
+            "Arguments": {
+                "folder": "tutorial-k8s",
+                "output1": "sample1.csv",
+                "output2": "sample2.csv"
+            },
+            "InvokeNext": [
+                "sum"
+            ],
+            "FaaSServer": "K8s",
+            "Type": "R",
+            "FunctionName": "create_sample_data"
+        },
+        "sum": {
+            "FunctionName": "compute_sum",
+            "FaaSServer": "K8s",
+            "Type": "R",
+            "Arguments": {
+                "folder": "tutorial-k8s",
+                "input2": "sample2.csv",
+                "input1": "sample1.csv",
+                "output": "sum.csv"
+            },
+            "InvokeNext": []
+        }
+    },
+    "ComputeServers": {
+        "K8s": {
+            "FaaSType": "Kubernetes",
+            "Endpoint": "https://192.168.0.152:6443",
+            "Namespace": "faasr",
+            "UseSecretStore": true,
+            "AllowSelfSignedCertificate": true,
+            "SSLCertificate": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJTlFRclRwVnNEdjR3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TmpFeE1UUXdPVEU1TVRoYUZ3MHpOakV4TVRFd09USTBNVGhhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURWcnVlOEdyRmdpcENPR1owWmxQcFBVUTkxVVZEYXB4TVVSOTB4c0t1dW1paldFZUk3M29jNjBTQ3kKZUdVK2c3MXJTTTdIRzUxYjNsdXRDK2ZmY3NrMkpySnNteExITkhEb2kxeEF5ZmxqRldidDhMYkh0dzdYUUtyeAoxZUdwUmNGUTFVUmFtbEZwTXdvcm9tR2liQXE1VFFuamZNNXpzV0dhYVBtZVFENnFNaVFTNHQ4MEt2aHgrQ0VrClh6K3k0bXRUYWoyNUJZdDRlV1BjRjJrcGJQZHYwdVpreCtQaG92YldCS2srMytlNkRZaGdrRHRXNldtYU50ejkKMzlFOTZFMmhTK1RIdXQ3aDdQZUVRMmNPME9FUkluRnFSTTVJdUg2NWM2L2oyVCt2dDBobDI5b01nT3VPR0hncgpyQ21OQUlSVWZ0OTY2dEhoa2FCL1VEUitlK3ZiQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJTNzMzdEdrbkcrcXp6bG8xRThxM3JvaE5mb0tqQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQXU3RHFXUW1SSwp3ei9PdkRlbVJFWDN0MzRqb3g0ZU04NXZaUEhEbUowM0FyVWJLNUtsQ2xQNXF0QzlLZkFDNGt0ZUVsRG4wL2UyClZHbmE5VERrUXJGWUJoWFluTk1wcEdXV1M1TEI3dDcxZmdxVlhISk9xSG04OFR3ZldLVnJCdkp1dHl6MG9pbXAKSUswS0hSVll4NlU5WGJWVnRMNzBzQWVSSmZaMTRPSDl2bnpqMWFHVFZ1MEt4cWlVS3NiaDZhb2tzZjgzdGp5UQp3eUM5cW1lczJKYkV2K2hsZkxvNUg1R2pTcTBpT0hhTUo3OHBQbVNaekZuUlh6R3IvMzF3djM2RXE1S096bFp0CkFUbGJWdlA0c29Jamk1R1NhN25scFVQSjBWTXNEa09ORXpZOHd1QXRhVUxrZ1ZJNHYvVGJZU1Uwb3FrT3NGZDEKaUxrK3RKc0N3bFpsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K",
+            "MaxCPU": 500,
+            "MaxMemory": 1000,
+            "TimeLimit": 300,
+            "AdditionalTimeToLive": 3600,
+            "NumberOfRetries": 0
+        }
+    },
+    "DataStores": {
+        "S3": {
+            "Endpoint": "https://play.min.io",
+            "Bucket": "faasr",
+            "Region": "us-east-1"
+        }
+    },
+    "ActionContainers": {
+        "start": "faasr/kubernetes-r:latest",
+        "sum": "faasr/kubernetes-r:latest"
+    },
+    "FunctionInvoke": "start",
+    "DefaultDataStore": "S3",
+    "FunctionGitRepo": {
+        "create_sample_data": "FaaSr/FaaSr-Functions/tutorial",
+        "compute_sum": "FaaSr/FaaSr-Functions/tutorial"
+    },
+    "LoggingDataStore": "S3",
+    "FaaSrLog": "FaaSrLog",
+    "InvocationID": "tutorial",
+    "WorkflowName": "tutorial-k8s"
+}
